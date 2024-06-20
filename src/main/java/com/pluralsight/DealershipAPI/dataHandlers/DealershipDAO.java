@@ -1,7 +1,7 @@
 package com.pluralsight.DealershipAPI.dataHandlers;
 
-import com.pluralsight.dataHandlers.abstractDAO.DataManager;
-import com.pluralsight.models.Dealership;
+import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.DataManager;
+import com.pluralsight.DealershipAPI.models.Dealership;
 
 import java.sql.*;
 import java.util.ArrayList;

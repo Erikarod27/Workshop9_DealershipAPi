@@ -1,6 +1,6 @@
 package com.pluralsight.DealershipAPI.models;
 
-import com.pluralsight.models.abstractModels.Contract;
+import com.pluralsight.DealershipAPI.models.abstractModels.Contract;
 
 public class SalesContract extends Contract {
     private final double salesTaxPercentage;

@@ -1,7 +1,7 @@
 package com.pluralsight.DealershipAPI.dataHandlers;
 
-import com.pluralsight.dataHandlers.abstractDAO.DataManager;
-import com.pluralsight.models.Vehicle;
+import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.DataManager;
+import com.pluralsight.DealershipAPI.models.Vehicle;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

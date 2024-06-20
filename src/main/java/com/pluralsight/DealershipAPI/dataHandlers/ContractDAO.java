@@ -1,10 +1,10 @@
 package com.pluralsight.DealershipAPI.dataHandlers;
 
-import com.pluralsight.dataHandlers.abstractDAO.DataManager;
-import com.pluralsight.models.LeaseContract;
-import com.pluralsight.models.SalesContract;
-import com.pluralsight.models.Vehicle;
-import com.pluralsight.models.abstractModels.Contract;
+import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.DataManager;
+import com.pluralsight.DealershipAPI.models.LeaseContract;
+import com.pluralsight.DealershipAPI.models.SalesContract;
+import com.pluralsight.DealershipAPI.models.Vehicle;
+import com.pluralsight.DealershipAPI.models.abstractModels.Contract;
 
 import java.util.List;
 

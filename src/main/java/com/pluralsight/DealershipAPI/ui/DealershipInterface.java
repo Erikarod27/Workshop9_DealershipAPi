@@ -1,10 +1,10 @@
 package com.pluralsight.DealershipAPI.ui;
 
-import com.pluralsight.dataHandlers.DealershipDAO;
-import com.pluralsight.dataHandlers.VehicleDAO;
-import com.pluralsight.models.Dealership;
-import com.pluralsight.models.Vehicle;
-import com.pluralsight.util.*;
+import com.pluralsight.DealershipAPI.dataHandlers.DealershipDAO;
+import com.pluralsight.DealershipAPI.dataHandlers.VehicleDAO;
+import com.pluralsight.DealershipAPI.models.Dealership;
+import com.pluralsight.DealershipAPI.models.Vehicle;
+import com.pluralsight.DealershipAPI.util.*;
 
 import java.util.List;
 

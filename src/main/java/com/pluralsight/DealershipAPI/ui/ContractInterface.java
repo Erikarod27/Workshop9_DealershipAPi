@@ -1,12 +1,12 @@
 package com.pluralsight.DealershipAPI.ui;
 
-import com.pluralsight.dataHandlers.ContractDAO;
-import com.pluralsight.dataHandlers.VehicleDAO;
-import com.pluralsight.models.LeaseContract;
-import com.pluralsight.models.SalesContract;
-import com.pluralsight.models.Vehicle;
-import com.pluralsight.util.Inputs;
-import com.pluralsight.util.Text;
+import com.pluralsight.DealershipAPI.dataHandlers.ContractDAO;
+import com.pluralsight.DealershipAPI.dataHandlers.VehicleDAO;
+import com.pluralsight.DealershipAPI.models.LeaseContract;
+import com.pluralsight.DealershipAPI.models.SalesContract;
+import com.pluralsight.DealershipAPI.models.Vehicle;
+import com.pluralsight.DealershipAPI.util.Inputs;
+import com.pluralsight.DealershipAPI.util.Text;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
