@@ -18,44 +18,44 @@ public class VehicleController {
 
     //GET all vehicles method
     @RequestMapping(path = "/{dealership_id}/vehicles", method = RequestMethod.GET)
-    public List<Vehicle> vehicles(@PathVariable int dealership_id) {
+    public List<Vehicle> allVehicles(@PathVariable int dealership_id) {
         return vehicleService.getAllVehicles(dealership_id);
     }
 
     //GET all vehicles by min and max price method
     @RequestMapping(path="{dealership_id}/vehicles/filter", method=RequestMethod.GET)
-    public List<Vehicle> vehicles(@PathVariable int dealership_id, @RequestParam double min_price, @RequestParam double max_price) {
+    public List<Vehicle> vehiclesByPrice(@PathVariable int dealership_id, @RequestParam double min_price, @RequestParam double max_price) {
         return vehicleService.filterByPrice(dealership_id, min_price, max_price);
     }
 
     //GET all vehicles by make and model method
     @RequestMapping(path="{dealership_id}/vehicles/filter", method=RequestMethod.GET)
-    public List<Vehicle> vehicles(@PathVariable int dealership_id, @RequestParam String make, @RequestParam String model) {
+    public List<Vehicle> vehiclesByMakeModel(@PathVariable int dealership_id, @RequestParam String make, @RequestParam String model) {
         return vehicleService.filterByMakeModel(dealership_id, make, model);
     }
 
     //GET all vehicles by both min and max year method
     @RequestMapping(path="{dealership_id}/vehicles/filter", method=RequestMethod.GET)
-    public List<Vehicle> vehicles(@PathVariable int dealership_id, @RequestParam int min_year, @RequestParam int max_year) {
+    public List<Vehicle> vehiclesByYear(@PathVariable int dealership_id, @RequestParam int min_year, @RequestParam int max_year) {
         return vehicleService.filterByYear(dealership_id, min_year, max_year);
     }
 
     //GET all vehicles by color method
     @RequestMapping(path="{dealership_id}/vehicles/filter", method=RequestMethod.GET)
-    public List<Vehicle> vehicles(@PathVariable int dealership_id, @RequestParam String color) {
+    public List<Vehicle> vehiclesByColor(@PathVariable int dealership_id, @RequestParam String color) {
         return vehicleService.filterByColor(dealership_id, color);
     }
 
     //GET all vehicles by both min and max miles method
     @RequestMapping(path="{dealership_id}/vehicles/filter", method=RequestMethod.GET)
-    public List<Vehicle> vehicles(@PathVariable int dealership_id, @RequestParam int min_miles, @RequestParam int max_miles) {
+    public List<Vehicle> vehiclesByMiles(@PathVariable int dealership_id, @RequestParam int min_miles, @RequestParam int max_miles) {
         return vehicleService.filterByMiles(dealership_id, min_miles, max_miles);
     }
 
     //GET all vehicles by type method
     @RequestMapping(path="{dealership_id}/vehicles/filter", method=RequestMethod.GET)
-    public List<Vehicle> vehicles(@PathVariable int dealership_id, @RequestParam String type) {
-        return vehicleService.type(dealership_id, type);
+    public List<Vehicle> vehiclesByType(@PathVariable int dealership_id, @RequestParam String type) {
+        return vehicleService.filterByType(dealership_id, type);
     }
 
     //POST add vehicle method
