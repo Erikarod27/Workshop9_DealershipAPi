@@ -21,31 +21,31 @@ public class VehicleService {
         return vehicleDAO.getAllVehicles(dealershipId);
     }
 
-    public List<Vehicle> getVehicleByVin(int vin) {
+    public List<Vehicle> filterByVin(int vin) {
         return Collections.singletonList(vehicleDAO.filterByVin(vin));
     }
 
-    public List<Vehicle> getVehicleByPrice(double min, double max) {
+    public List<Vehicle> filterByPrice(int id, double min, double max) {
         return  vehicleDAO.filterByPrice(min, max);
     }
 
-    public List<Vehicle> getVehicleByMakeModel(String make, String model) {
+    public List<Vehicle> filterByMakeModel(int id, String make, String model) {
         return vehicleDAO.filterByMakeModel(make, model);
     }
 
-    public List<Vehicle> getVehicleByYear (int minYear, int maxYear) {
+    public List<Vehicle> filterByYear (int id, int minYear, int maxYear) {
         return vehicleDAO.filterByYear(minYear, maxYear);
     }
 
-    public List<Vehicle> getVehicleByColor(String color) {
+    public List<Vehicle> filterByColor(int id, String color) {
         return vehicleDAO.filterByColor(color);
     }
 
-    public List<Vehicle> getVehicleByMiles(double minMiles, double maxMiles) {
+    public List<Vehicle> filterByMiles(int id, double minMiles, double maxMiles) {
         return vehicleDAO.filterByMileage(minMiles, maxMiles);
     }
 
-    public List<Vehicle> getVehicleByType(String type) {
+    public List<Vehicle> filterByType(int id, String type) {
         return vehicleDAO.filterByType(type);
     }
 }
