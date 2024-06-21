@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class VehicleService {
@@ -47,5 +48,9 @@ public class VehicleService {
 
     public List<Vehicle> filterByType(int id, String type) {
         return vehicleDAO.filterByType(type);
+    }
+
+    public List<Vehicle> getVehiclesByFilter(Map<String, Object> queryParams) {
+        return vehicleDAO.filterVehicles(queryParams);
     }
 }
