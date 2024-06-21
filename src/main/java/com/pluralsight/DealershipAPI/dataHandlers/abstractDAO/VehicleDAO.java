@@ -4,6 +4,7 @@ import com.pluralsight.DealershipAPI.models.Vehicle;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Map;
 
 public interface VehicleDAO {
 
@@ -31,4 +32,5 @@ public interface VehicleDAO {
 
     void removeVehicle(Vehicle vehicle);
 
+    List<Vehicle> filterVehicles(Map<String, Object> queryParams);
 }

@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class VehicleDAOImpl extends DataManager implements VehicleDAO {
@@ -128,6 +129,68 @@ public class VehicleDAOImpl extends DataManager implements VehicleDAO {
         String deleteSql = "DELETE FROM cars WHERE vin = ?";
         List<?> parameters = List.of(vehicle.vin());
         executeUpdate(deleteSql, parameters);
+    }
+
+    @Override
+    public List<Vehicle> filterVehicles(Map<String, Object> queryParams) {
+        List<Vehicle> vehicles = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT * FROM vehicles WHERE ");
+
+        query.append("dealership_id = ? ");
+        params.add(queryParams.get("dealership_id"));
+        if (queryParams.containsKey("make")) {
+            query.append("AND `make` = ? ");
+            params.add(queryParams.get("make"));
+        }
+        if (queryParams.containsKey("model")) {
+            query.append("AND `model` = ? ");
+            params.add(queryParams.get("model"));
+        }
+        if (queryParams.containsKey("year")) {
+            query.append("AND `year` = ? ");
+            params.add(queryParams.get("year"));
+        }
+        if (queryParams.containsKey("minOdometer")) {
+            query.append("AND `odometer` > ? ");
+            params.add(queryParams.get("minOdometer"));
+        }
+        if (queryParams.containsKey("maxOdometer")) {
+            query.append("AND `odometer` < ? ");
+            params.add(queryParams.get("maxOdometer"));
+        }
+        if (queryParams.containsKey("color")) {
+            query.append("AND `color` = ? ");
+            params.add(queryParams.get("color"));
+        }
+        if (queryParams.containsKey("vehicleType")) {
+            query.append("AND `vehicleType` = ? ");
+            params.add(queryParams.get("vehicleType"));
+        }
+        if (queryParams.containsKey("minPrice")) {
+            query.append("AND `price` > ? ");
+            params.add(queryParams.get("minPrice"));
+        }
+        if (queryParams.containsKey("maxPrice")) {
+            query.append("AND `price` < ? ");
+            params.add(queryParams.get("maxPrice"));
+        }
+
+        try (Connection connection = getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query.toString());
+
+            for (int i = 0; i < queryParams.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            ResultSet resultSet = ps.executeQuery();
+
+            while(resultSet.next()) {
+                vehicles.add(getVehicleInfo(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return vehicles;
     }
 
     private Vehicle getVehicleInfo(ResultSet cars) {
