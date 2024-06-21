@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DealershipService {
+public class DealershipService
+{
     private final DealershipDAO dealershipDAO;
 
     @Autowired

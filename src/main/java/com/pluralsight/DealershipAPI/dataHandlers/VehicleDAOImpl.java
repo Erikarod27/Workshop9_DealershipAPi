@@ -94,9 +94,9 @@ public class VehicleDAOImpl extends DataManager implements VehicleDAO {
         return getVehicles(query, List.of(color));
     }
 
-    public List<Vehicle> filterByMileage(int highestMileage) {
-        String query = "SELECT * FROM cars WHERE odometer < ? AND dealershipID = ? AND sold IS NULL";
-        List<Integer> parameters = List.of(highestMileage);
+    public List<Vehicle> filterByMileage(double maxMile, double minMile) {
+        String query = "SELECT * FROM cars WHERE odometer BETWEEN ? AND ? AND dealershipID = ? AND sold IS NULL";
+        List<Double> parameters = List.of(maxMile, minMile);
         return getVehicles(query, parameters);
     }
 
