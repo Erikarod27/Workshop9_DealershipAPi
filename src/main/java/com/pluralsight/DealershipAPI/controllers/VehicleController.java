@@ -23,4 +23,5 @@ public class VehicleController {
     public List<Vehicle> vehicles(@PathVariable int dealership_id) {
         return vehicleService.getAllVehicles(dealership_id);
     }
+
 }
