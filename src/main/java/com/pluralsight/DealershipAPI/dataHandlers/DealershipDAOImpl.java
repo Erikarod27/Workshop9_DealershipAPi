@@ -1,22 +1,26 @@
 package com.pluralsight.DealershipAPI.dataHandlers;
 
 import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.DataManager;
+import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.DealershipDAO;
 import com.pluralsight.DealershipAPI.models.Dealership;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DealershipDAO extends DataManager {
+@Component
+public class DealershipDAOImpl extends DataManager implements DealershipDAO {
 
-    public DealershipDAO() {
+    public DealershipDAOImpl(DataSource dataSource) {
+        super(dataSource);
     }
 
-    public List<Dealership> loadDealershipsFromDatabase() {
-        openConnection();
-
+    @Override
+    public List<Dealership> getAllDealerships() {
         List<Dealership> dealershipList = new ArrayList<>();
-        try {
+        try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet dealerships = statement.executeQuery("SELECT * FROM dealerships");
 
@@ -30,10 +34,8 @@ public class DealershipDAO extends DataManager {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            closeConnection();
         }
+
         return dealershipList;
     }
-
 }

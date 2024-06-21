@@ -1,15 +1,24 @@
 package com.pluralsight.DealershipAPI.dataHandlers;
 
+import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.ContractDAO;
 import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.DataManager;
 import com.pluralsight.DealershipAPI.models.LeaseContract;
 import com.pluralsight.DealershipAPI.models.SalesContract;
 import com.pluralsight.DealershipAPI.models.Vehicle;
 import com.pluralsight.DealershipAPI.models.abstractModels.Contract;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.util.List;
 
-public class ContractDAO extends DataManager {
+@Component
+public class ContractDAOImpl extends DataManager implements ContractDAO {
 
+    @Autowired
+    public ContractDAOImpl(DataSource dataSource) {
+        super(dataSource);
+    }
 //TODO Separate the save contracts into saveLeaseContract and saveSalesContract
     public void saveContract(Contract contract) {
         String insertSql = "";

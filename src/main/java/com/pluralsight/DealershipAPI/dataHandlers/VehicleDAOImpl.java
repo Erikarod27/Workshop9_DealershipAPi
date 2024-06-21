@@ -1,26 +1,27 @@
 package com.pluralsight.DealershipAPI.dataHandlers;
 
 import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.DataManager;
+import com.pluralsight.DealershipAPI.dataHandlers.abstractDAO.VehicleDAO;
 import com.pluralsight.DealershipAPI.models.Vehicle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehicleDAO extends DataManager {
-    private final int dealershipId;
+@Component
+public class VehicleDAOImpl extends DataManager implements VehicleDAO {
 
-    public VehicleDAO(int dealershipId) {
-        this.dealershipId = dealershipId;
+    @Autowired
+    public VehicleDAOImpl(DataSource dataSource) {
+        super(dataSource);
     }
 
-    public List<Vehicle> getAllVehicles() {
-        openConnection();
+    public List<Vehicle> getAllVehicles(int dealershipId) {
         List<Vehicle> vehicles = new ArrayList<>();
-        try {
+        try (Connection connection = getConnection()) {
             Statement s = connection.createStatement();
             ResultSet cars = s.executeQuery(String.format("SELECT * FROM cars WHERE dealershipID = %d AND sold IS null", dealershipId));
 
@@ -31,16 +32,13 @@ public class VehicleDAO extends DataManager {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            closeConnection();
         }
         return vehicles;
     }
 
     public <T> List<Vehicle> getVehicles(String query, List<T> arguments) {
-        openConnection();
         List<Vehicle> vehicles = new ArrayList<>();
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
 
 //TODO      Extract this method somehow
@@ -56,7 +54,7 @@ public class VehicleDAO extends DataManager {
                     throw new IllegalArgumentException("Unsupported argument type");
                 }
             }
-            ps.setInt(arguments.size() + 1, dealershipId);
+//            ps.setInt(arguments.size() + 1, dealershipId);
 
             ResultSet cars = ps.executeQuery();
 
@@ -67,8 +65,6 @@ public class VehicleDAO extends DataManager {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            closeConnection();
         }
         return vehicles;
     }
@@ -112,7 +108,8 @@ public class VehicleDAO extends DataManager {
 
     public void addVehicle(Vehicle vehicle) {
         String insertSql = "INSERT INTO cars (dealershipID, vin, year, make, model, color, odometer, vehicleType, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        List<?> parameters = List.of(this.dealershipId, vehicle.vin(), vehicle.year(), vehicle.make(), vehicle.model(), vehicle.color(), vehicle.odometer(), vehicle.vehicleType(), vehicle.price());
+        //add dealership id somehow
+        List<?> parameters = List.of(vehicle.vin(), vehicle.year(), vehicle.make(), vehicle.model(), vehicle.color(), vehicle.odometer(), vehicle.vehicleType(), vehicle.price());
         executeUpdate(insertSql, parameters);
     }
 
