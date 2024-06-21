@@ -1,10 +1,9 @@
 package com.pluralsight.DealershipAPI.models;
+import org.springframework.stereotype.Component;
 
+@Component
 public record Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer,
                       double price) {
-
-    //Getters and Setters
-
     @Override
     public String toString() {
         return String.format("""

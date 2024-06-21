@@ -22,7 +22,7 @@ public interface VehicleDAO {
 
     List<Vehicle> filterByColor(String color);
 
-    List<Vehicle> filterByMileage(int highestMileage);
+    List<Vehicle> filterByMileage(double minMiles, double maxMiles);
 
     List<Vehicle> filterByType(String type);
 
