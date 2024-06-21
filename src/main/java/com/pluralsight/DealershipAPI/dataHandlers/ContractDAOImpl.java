@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -20,7 +24,7 @@ public class ContractDAOImpl extends DataManager implements ContractDAO {
         super(dataSource);
     }
 //TODO Separate the save contracts into saveLeaseContract and saveSalesContract
-    public void saveContract(Contract contract) {
+    public void addContract(Contract contract) {
         String insertSql = "";
         Vehicle soldVehicle = contract.getVehicleSold();
         List<?> parameters = List.of();
@@ -58,5 +62,51 @@ public class ContractDAOImpl extends DataManager implements ContractDAO {
 
         executeUpdate(insertSql, parameters);
     }
+
+    @Override
+    public LeaseContract getLeaseContractById(int contractId) {
+        String query = "SELECT * FROM leaseContracts WHERE contract_id = ?";
+
+        try (Connection connection = getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ps.setInt(1, contractId);
+
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("hello");
+//                return getContractInfo(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
+    public SalesContract getSalesContractById(int contractId) {
+        String query = "SELECT * FROM salesContracts WHERE contract_id = ?";
+
+        try (Connection connection = getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ps.setInt(1, contractId);
+
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("hello");
+//                return getContractInfo(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+//    private SalesContract getContractInfo(ResultSet resultSet) {
+//
+//    }
 }
 
