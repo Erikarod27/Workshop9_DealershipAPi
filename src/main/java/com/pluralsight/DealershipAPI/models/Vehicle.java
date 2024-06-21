@@ -1,9 +1,7 @@
 package com.pluralsight.DealershipAPI.models;
-import org.springframework.stereotype.Component;
 
-@Component
 public record Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer,
-                      double price) {
+                      double price, int sold) {
     @Override
     public String toString() {
         return String.format("""
@@ -15,6 +13,7 @@ public record Vehicle(int vin, int year, String make, String model, String vehic
             Vehicle Type: %s
             Odometer: %d
             Price: $%.2f
+            Sold: %d
             """,
             vin(),
             year(),
@@ -23,6 +22,8 @@ public record Vehicle(int vin, int year, String make, String model, String vehic
             color(),
             vehicleType(),
             odometer(),
-            price());
+            price(),
+            sold()
+        );
     }
 }

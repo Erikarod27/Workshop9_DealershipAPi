@@ -5,13 +5,12 @@ import com.pluralsight.DealershipAPI.models.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class VehicleService {
-    private VehicleDAO vehicleDAO;
+    private final VehicleDAO vehicleDAO;
 
     @Autowired
     public VehicleService(VehicleDAO vehicleDAO) {
@@ -22,8 +21,8 @@ public class VehicleService {
         return vehicleDAO.getAllVehicles(dealershipId);
     }
 
-    public List<Vehicle> filterByVin(int vin) {
-        return Collections.singletonList(vehicleDAO.filterByVin(vin));
+    public Vehicle filterByVin(int vin) {
+        return vehicleDAO.filterByVin(vin);
     }
 
     public List<Vehicle> filterByPrice(int id, double min, double max) {
@@ -53,4 +52,17 @@ public class VehicleService {
     public List<Vehicle> getVehiclesByFilter(Map<String, Object> queryParams) {
         return vehicleDAO.filterVehicles(queryParams);
     }
+
+    public void addVehicle(int dealershipId, Vehicle vehicle) {
+        vehicleDAO.addVehicle(dealershipId, vehicle);
+    }
+
+    public int updateVehicle(Vehicle vehicle) {
+        return vehicleDAO.updateVehicle(vehicle);
+    }
+
+    public int deleteVehicle(int vin) {
+        return vehicleDAO.removeVehicle(vin);
+    }
+
 }

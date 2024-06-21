@@ -2,7 +2,6 @@ package com.pluralsight.DealershipAPI.dataHandlers.abstractDAO;
 
 import com.pluralsight.DealershipAPI.models.Vehicle;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +25,11 @@ public interface VehicleDAO {
 
     List<Vehicle> filterByType(String type);
 
-    void addVehicle(Vehicle vehicle);
+    void addVehicle(int dealership_id, Vehicle vehicle);
 
-    void updateVehicleAsSold(Vehicle vehicle);
+    int updateVehicle(Vehicle vehicle);
 
-    void removeVehicle(Vehicle vehicle);
+    int removeVehicle(int vin);
 
     List<Vehicle> filterVehicles(Map<String, Object> queryParams);
 }

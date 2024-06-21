@@ -71,64 +71,59 @@ public class VehicleDAOImpl extends DataManager implements VehicleDAO {
     }
 
     public Vehicle filterByVin(int vin) {
-        String query = "SELECT * FROM cars WHERE vin = ? AND dealershipID = ? AND sold IS NULL";
+        String query = "SELECT * FROM cars WHERE vin = ? AND dealership_id = ? AND sold IS NULL";
         return getVehicles(query, List.of(vin)).get(0);
     }
 
     public List<Vehicle> filterByPrice(double minimumPrice, double maximumPrice) {
-        String query = "SELECT * FROM cars WHERE price BETWEEN ? AND ? AND dealershipID = ? AND sold IS NULL";
+        String query = "SELECT * FROM cars WHERE price BETWEEN ? AND ? AND dealership_id = ? AND sold IS NULL";
         return getVehicles(query, List.of(minimumPrice, maximumPrice));
     }
 
     public List<Vehicle> filterByMakeModel(String make, String model) {
-        String query = "SELECT * FROM cars WHERE (make = ? OR model = ?) AND dealershipID = ? AND sold IS NULL";
+        String query = "SELECT * FROM cars WHERE (make = ? OR model = ?) AND dealership_id = ? AND sold IS NULL";
         return getVehicles(query, List.of(make, model));
     }
 
     public List<Vehicle> filterByYear(int oldestYear, int newestYear) {
-        String query = "SELECT * FROM cars WHERE year BETWEEN ? AND ? AND dealershipID = ? AND sold IS NULL";
+        String query = "SELECT * FROM cars WHERE year BETWEEN ? AND ? AND dealership_id = ? AND sold IS NULL";
         return getVehicles(query, List.of(oldestYear, newestYear));
     }
 
     public List<Vehicle> filterByColor(String color) {
-        String query = "SELECT * FROM cars WHERE color = ? AND dealershipID = ? AND sold IS NULL";
+        String query = "SELECT * FROM cars WHERE color = ? AND dealership_id = ? AND sold IS NULL";
         return getVehicles(query, List.of(color));
     }
 
     public List<Vehicle> filterByMileage(double maxMile, double minMile) {
-        String query = "SELECT * FROM cars WHERE odometer BETWEEN ? AND ? AND dealershipID = ? AND sold IS NULL";
+        String query = "SELECT * FROM cars WHERE odometer BETWEEN ? AND ? AND dealership_id = ? AND sold IS NULL";
         List<Double> parameters = List.of(maxMile, minMile);
         return getVehicles(query, parameters);
     }
 
     public List<Vehicle> filterByType(String type) {
-        String query = "SELECT * FROM cars WHERE vehicleType = ? AND dealershipID = ? AND sold IS NULL";
+        String query = "SELECT * FROM cars WHERE vehicleType = ? AND dealership_id = ? AND sold IS NULL";
         List<String> parameters = List.of(type);
         return getVehicles(query, parameters);
     }
 
-    public void addVehicle(Vehicle vehicle) {
-        String insertSql = "INSERT INTO cars (dealershipID, vin, year, make, model, color, odometer, vehicleType, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void addVehicle(int dealership_id, Vehicle vehicle) {
+        String insertSql = "INSERT INTO cars (dealership_id, vin, year, make, model, color, odometer, vehicleType, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         //add dealership id somehow
-        List<?> parameters = List.of(vehicle.vin(), vehicle.year(), vehicle.make(), vehicle.model(), vehicle.color(), vehicle.odometer(), vehicle.vehicleType(), vehicle.price());
+        List<?> parameters = List.of(dealership_id, vehicle.vin(), vehicle.year(), vehicle.make(), vehicle.model(), vehicle.color(), vehicle.odometer(), vehicle.vehicleType(), vehicle.price());
         executeUpdate(insertSql, parameters);
     }
 
-    public void updateVehicleAsSold(Vehicle vehicle) {
-        String updateSql = String.format("""
-                UPDATE `cars`
-                SET
-                `sold` = 1
-                WHERE `vin` = %d;
-                """, vehicle.vin());
-        executeUpdate(updateSql, List.of());
+    public int updateVehicle(Vehicle vehicle) {
+        String updateCarSql = "UPDATE cars SET year = ?, make = ?, model = ?, color = ?, odometer = ?, vehicleType = ?, price = ?, sold = ? WHERE vin = ?";
+        List<?> parameters = List.of(vehicle.year(), vehicle.make(), vehicle.model(), vehicle.color(), vehicle.odometer(), vehicle.vehicleType(), vehicle.price(), vehicle.sold(), vehicle.vin());
+        return executeUpdate(updateCarSql, parameters);
     }
 
-
-    public void removeVehicle(Vehicle vehicle) {
+    public int removeVehicle(int vin) {
         String deleteSql = "DELETE FROM cars WHERE vin = ?";
-        List<?> parameters = List.of(vehicle.vin());
-        executeUpdate(deleteSql, parameters);
+        List<?> parameters = List.of(vin);
+        return executeUpdate(deleteSql, parameters);
     }
 
     @Override
@@ -203,8 +198,9 @@ public class VehicleDAOImpl extends DataManager implements VehicleDAO {
             String color = cars.getString("color");
             int odometer = cars.getInt("odometer");
             double price = cars.getDouble("price");
+            int sold = cars.getInt("sold");
 
-            return new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
+            return new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

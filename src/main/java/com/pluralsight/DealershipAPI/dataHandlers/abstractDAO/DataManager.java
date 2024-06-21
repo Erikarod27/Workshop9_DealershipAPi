@@ -12,7 +12,7 @@ public abstract class DataManager {
         this.dataSource = dataSource;
     }
 
-    public <T> void executeUpdate(String query, List<T> arguments) {
+    public <T> int executeUpdate(String query, List<T> arguments) {
         Connection connection;
         try {
             connection = getConnection();
@@ -34,7 +34,7 @@ public abstract class DataManager {
                 }
             }
 
-            insertStmt.executeUpdate();
+            return insertStmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
